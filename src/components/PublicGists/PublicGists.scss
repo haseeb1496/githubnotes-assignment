@@ -1,0 +1,25 @@
+.public-gists {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  .icons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    svg {
+      color: #d9d9d9;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+    .active-view {
+      color: #a4e1ca;
+    }
+    .divider {
+      height: 2rem;
+      width: 0.1rem;
+      background-color: #b1b5bb;
+      margin: 0 0.75rem;
+    }
+  }
+}

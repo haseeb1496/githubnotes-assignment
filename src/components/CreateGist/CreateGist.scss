@@ -1,0 +1,34 @@
+.create-gist-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 60rem;
+  margin: auto;
+  input,
+  textarea {
+    margin: 0.5rem 0;
+    width: 100% !important;
+    background-color: transparent;
+    color: #504b48;
+    border: 1px solid #bdbdbd;
+    padding: 0.3rem 2rem 0.3rem 0.5rem;
+    border-radius: 5px;
+    margin-right: 1.5rem;
+    width: 20rem;
+    &:focus-visible {
+      outline: none;
+    }
+    &::placeholder {
+      color: #a08d82;
+    }
+  }
+  textarea {
+    height: 15rem;
+    resize: none;
+  }
+  button {
+    margin: 0.25rem 0;
+    width: 6rem;
+    justify-content: center;
+    padding: 0.4rem 0.5rem;
+  }
+}

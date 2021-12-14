@@ -1,0 +1,64 @@
+.app-header {
+  background-color: #5acba1;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5rem;
+  span {
+    color: white;
+  }
+  .right-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    svg {
+      position: absolute;
+      color: #a6e2cc;
+      right: 7.25rem;
+    }
+    .active {
+      color: white;
+    }
+    input {
+      background-color: transparent;
+      color: white;
+      border: 1px solid #a6e2cc;
+      padding: 0.5rem 2rem 0.5rem 0.5rem;
+      border-radius: 5px;
+      margin-right: 1.5rem;
+      width: 20rem;
+      &:focus-visible {
+        outline: none;
+      }
+      &::placeholder {
+        color: #a6e2cc;
+      }
+    }
+    button {
+      background-color: white;
+      color: #5acba1;
+      border: none;
+      border-radius: 5px;
+      padding: 0.3rem 1.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+    .avatar {
+      height: 2.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .user-login-container {
+      width: 5rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+.ant-dropdown-menu {
+  border-radius: 4px !important;
+}

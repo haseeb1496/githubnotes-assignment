@@ -1,0 +1,43 @@
+.pagination {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    button {
+      margin: 0 1rem;
+      svg {
+        font-size: 1.5rem;
+      }
+      padding: 0.5rem 1rem;
+      width: 9.5rem;
+    }
+  }
+  .page-info {
+    color: #95a19f;
+    padding-right: 2rem;
+    display: flex;
+    align-items: center;
+    input {
+      height: 1.4rem;
+      margin-left: 0.5rem;
+      color: #95a19f;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      &:focus-visible {
+        outline: none;
+      }
+      width: 2.75rem;
+      text-align: center;
+      border-radius: 7px;
+      border: 2px solid #78d4b2;
+    }
+  }
+}
