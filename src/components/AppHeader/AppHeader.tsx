@@ -1,11 +1,7 @@
 import "./AppHeader.scss";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useState } from "react";
-import {
-  searchPublicGists,
-  getPublicGists,
-  getUserInfo,
-} from "../../app/services";
+import { useEffect, useState } from "react";
+import { getPublicGists, getUserInfo, getGist } from "../../app/services";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   setSearchInput,
@@ -79,9 +75,9 @@ function AppHeader() {
     if (evt.target.value !== searchString) {
       (!evt.target.value
         ? getPublicGists(pageNumber, numberOfResults)
-        : searchPublicGists(pageNumber, numberOfResults, evt.target.value)
+        : getGist(evt.target.value)
       ).then((res) =>
-        dispatch(setPublicGists(!evt.target.value ? res.data : res.data.items))
+        dispatch(setPublicGists(!evt.target.value ? res.data : [res.data]))
       );
     }
   };
@@ -91,9 +87,9 @@ function AppHeader() {
       dispatch(setSearchInput(evt.target.value));
       (!evt.target.value
         ? getPublicGists(pageNumber, numberOfResults)
-        : searchPublicGists(pageNumber, numberOfResults, evt.target.value)
+        : getGist(evt.target.value)
       ).then((res) =>
-        dispatch(setPublicGists(!evt.target.value ? res.data : res.data.items))
+        dispatch(setPublicGists(!evt.target.value ? res.data : [res.data]))
       );
     }
   };
@@ -112,7 +108,7 @@ function AppHeader() {
   return (
     <header className="app-header">
       <Link to="/">
-        <span>EMUMBA</span>
+        <span onClick={() => dispatch(setSearchInput(""))}>EMUMBA</span>
       </Link>
       <div className="right-container">
         <input

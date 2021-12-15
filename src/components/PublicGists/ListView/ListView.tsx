@@ -7,6 +7,7 @@ import { CgGitFork } from "react-icons/cg";
 import {
   addStarredGist,
   removeStarredGist,
+  selectIsLoggedIn,
   selectStarredGists,
 } from "../../../features/global/globalSlice";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +16,7 @@ import { forkGist } from "../../../app/services";
 function ListView(props: { gists: any[] }) {
   const navgiate = useNavigate();
   const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector((st) => selectIsLoggedIn(st));
   const starredGistIds = useAppSelector((st) => selectStarredGists(st)).map(
     (gist) => gist["id"]
   );
@@ -50,10 +52,11 @@ function ListView(props: { gists: any[] }) {
           ) : (
             <AiOutlineStar onClick={(e) => addStarGistHandler(e, gist)} />
           )}
-          <CgGitFork onClick={(e) => forkGistHandler(e, gist["id"])} />
+          {isLoggedIn && (
+            <CgGitFork onClick={(e) => forkGistHandler(e, gist["id"])} />
+          )}
         </div>
       ),
-      raw_url: gist["files"][Object.keys(gist["files"])[0]]["raw_url"],
     };
   });
   const columns = [

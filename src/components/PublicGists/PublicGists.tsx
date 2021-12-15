@@ -11,6 +11,7 @@ import {
   selectStarredGists,
   selectPublicGists,
   selectListView,
+  selectSearchInput,
 } from "../../features/global/globalSlice";
 import Pagination from "./Pagination/Pagination";
 import {
@@ -19,7 +20,7 @@ import {
   setNumberOfResults,
 } from "../../features/page/pageSlice";
 import { useEffect } from "react";
-import { getPublicGists } from "../../app/services";
+import { getGist, getPublicGists } from "../../app/services";
 import { Route, Routes } from "react-router-dom";
 
 function PublicGists() {
@@ -29,6 +30,7 @@ function PublicGists() {
   const listView = useAppSelector((st) => selectListView(st));
   const publicGists = useAppSelector((st) => selectPublicGists(st));
   const starredGists = useAppSelector((st) => selectStarredGists(st));
+  const searchString = useAppSelector((st) => selectSearchInput(st));
 
   const gridViewListener = () => {
     dispatch(setListView(false));
@@ -42,12 +44,17 @@ function PublicGists() {
 
   useEffect(() => {
     dispatch(setIsLoading(true));
-    getPublicGists(pageNumber, numberOfResults).then((res) => {
-      !!listView
-        ? dispatch(setNumberOfResults(14))
-        : dispatch(setNumberOfResults(9));
+    (!!searchString
+      ? getGist(searchString)
+      : getPublicGists(pageNumber, numberOfResults)
+    ).then((res) => {
+      if (!searchString) {
+        !!listView
+          ? dispatch(setNumberOfResults(14))
+          : dispatch(setNumberOfResults(9));
+      }
       dispatch(setIsLoading(false));
-      dispatch(setPublicGists(res.data));
+      dispatch(setPublicGists(!!searchString ? [res.data] : res.data));
     });
   }, [numberOfResults]);
 
@@ -74,7 +81,7 @@ function PublicGists() {
               ) : (
                 <GridView gists={publicGists} />
               )}
-              <Pagination />
+              {!searchString && <Pagination />}
             </>
           }
         ></Route>

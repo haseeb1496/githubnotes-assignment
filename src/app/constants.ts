@@ -5,8 +5,6 @@ export const constants = {
   uri: {
     getPublicGists:
       "https://api.github.com/gists/public?page={pageNumber}&per_page={perPage}",
-    searchPublicGists:
-      "https://api.github.com/search/code?q={searchString}&page={pageNumber}&per_page={perPage}",
     gitLogin:
       "https://github.com/login/oauth/authorize?client_id={clientId}&login=haseeb1496&redirect_uri={redirectUri}",
     getGitToken:

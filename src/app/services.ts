@@ -8,18 +8,6 @@ export const getPublicGists = (pageNumber: any, perPage: any) =>
       .replace("{perPage}", perPage)
   );
 
-export const searchPublicGists = (
-  pageNumber: any,
-  perPage: any,
-  searchString: string
-) =>
-  axios.get(
-    constants.uri.searchPublicGists
-      .replace("{searchString}", encodeURIComponent(searchString))
-      .replace("{pageNumber}", pageNumber)
-      .replace("{perPage}", perPage)
-  );
-
 export const getGitToken = (code: string) =>
   axios.post(
     constants.uri.getGitToken,

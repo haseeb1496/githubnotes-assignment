@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function GridView(props: { gists: any[] }) {
   const navigate = useNavigate();
-  
+
   return (
     <section className="grid-view">
       {props.gists.map((gist) => {
@@ -20,7 +20,11 @@ function GridView(props: { gists: any[] }) {
             <div className="content">
               <Gist
                 id={gist["id"]}
-                file={gist["files"][Object.keys(gist["files"])[0]]["filename"]}
+                file={
+                  !!gist["files"] && !!Object.keys(gist["files"]).length
+                    ? gist["files"][Object.keys(gist["files"])[0]]["filename"]
+                    : ""
+                }
               />
             </div>
             <hr />
@@ -40,7 +44,9 @@ function GridView(props: { gists: any[] }) {
                     : gist["owner"]["login"]}
                   /
                   <span className="file-name">
-                    {Object.keys(gist["files"])[0]}
+                    {!!gist["files"] && !!Object.keys(gist["files"]).length
+                      ? Object.keys(gist["files"])[0]
+                      : ""}
                   </span>
                 </span>
                 <span>Created {date}</span>

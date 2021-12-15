@@ -16,9 +16,7 @@ function GitNotes() {
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      let loginUserName = "";
       getUserInfo().then((res) => {
-        loginUserName = res.data.login;
         dispatch(setIsLoggedIn(true));
         dispatch(setUserInfo(res.data));
       });
