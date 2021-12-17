@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
 export interface Global {
@@ -51,7 +51,7 @@ export const globalSlice = createSlice({
         gist["id"] === action.payload ? { ...gist, starredGist: false } : gist
       );
       state.starredGists.splice(
-        state.publicGists.findIndex((gist) => gist["id"] === action.payload),
+        state.starredGists.findIndex((gist) => gist["id"] === action.payload),
         1
       );
     },

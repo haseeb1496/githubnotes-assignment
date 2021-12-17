@@ -7,24 +7,29 @@ import { CgGitFork } from "react-icons/cg";
 import {
   addStarredGist,
   removeStarredGist,
+  selectIsLoading,
   selectIsLoggedIn,
   selectStarredGists,
 } from "../../../features/global/globalSlice";
 import { useNavigate } from "react-router-dom";
 import { forkGist } from "../../../app/services";
+import { CircularProgress } from "@mui/material";
+import { message } from "antd";
 
 function ListView(props: { gists: any[] }) {
   const navgiate = useNavigate();
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((st) => selectIsLoggedIn(st));
+  const isLoading = useAppSelector((st) => selectIsLoading(st));
   const starredGistIds = useAppSelector((st) => selectStarredGists(st)).map(
     (gist) => gist["id"]
   );
-  const datasource = props.gists.map((gist) => {
+  const datasource = props.gists.map((gist, i) => {
     const date = gist["created_at"]
       ? moment(gist["created_at"]).format("D MMM YYYY hh:mm a")
       : "";
     return {
+      key: i,
       id: gist["id"],
       avatar: (
         <img
@@ -84,11 +89,13 @@ function ListView(props: { gists: any[] }) {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      ellipsis: true,
     },
     {
       title: "Notebook(s)",
       dataIndex: "notebooks",
       key: "notebooks",
+      ellipsis: true,
     },
     {
       title: "",
@@ -109,19 +116,26 @@ function ListView(props: { gists: any[] }) {
 
   const forkGistHandler = (evt: any, id: string) => {
     evt.stopPropagation();
-    forkGist(id);
+    forkGist(id).then(() => message.success("Gist forked successfully"));
   };
 
   return (
-    <section className="list-view">
-      <Table
-        dataSource={datasource}
-        columns={columns}
-        pagination={false}
-        onRow={(gist) => ({
-          onClick: () => navgiate(`/view/${gist["id"]}`),
-        })}
-      />
+    <section
+      className="list-view"
+      style={{ justifyContent: isLoading ? "center" : "flex-start" }}
+    >
+      {isLoading ? (
+        <CircularProgress color="success" />
+      ) : (
+        <Table
+          dataSource={datasource}
+          columns={columns}
+          pagination={false}
+          onRow={(gist) => ({
+            onClick: () => navgiate(`/view/${gist["id"]}`),
+          })}
+        />
+      )}
     </section>
   );
 }

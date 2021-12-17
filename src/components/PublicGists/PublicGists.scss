@@ -2,11 +2,14 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  width: 100%;
+  min-height: calc(100vh - 9rem);
   .icons-container {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    height: 2rem;
     svg {
       color: #d9d9d9;
       font-size: 1.25rem;

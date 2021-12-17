@@ -1,6 +1,6 @@
 import "./AppHeader.scss";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getPublicGists, getUserInfo, getGist } from "../../app/services";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
@@ -9,11 +9,12 @@ import {
   setIsLoggedIn,
   selectSearchInput,
   selectIsLoggedIn,
+  setIsLoading,
 } from "../../features/global/globalSlice";
 import { getGitToken } from "../../app/services";
 import GitHubLogin from "react-github-login";
 import { constants } from "../../app/constants";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, message } from "antd";
 import "antd/dist/antd.css";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -26,11 +27,17 @@ function AppHeader() {
   const [inputActive, setInputActive] = useState(false);
   const pageNumber = useAppSelector((st) => selectPageNumber(st));
   const numberOfResults = useAppSelector((st) => selectNumberOfResults(st));
-  const searchString = useAppSelector((st) => selectSearchInput(st));
+  const searchString = useAppSelector((st) => {
+    const string = selectSearchInput(st);
+    if (document.getElementById("search-input")) {
+      document.getElementById("search-input")!["value"] = string;
+    }
+    return string;
+  });
   const loginUserInfo = useAppSelector((st) => selectUserInfo(st));
   const isLoggedIn = useAppSelector((st) => selectIsLoggedIn(st));
   const dispatch = useAppDispatch();
-  const navgiate = useNavigate();
+  const navigate = useNavigate();
 
   const menu = (
     <Menu>
@@ -66,31 +73,22 @@ function AppHeader() {
     localStorage.removeItem("token");
     dispatch(setIsLoggedIn(false));
     dispatch(setUserInfo({}));
-    navgiate("/");
+    message.success("Logged out successfully");
+    navigate("/");
   };
 
   const blurHandler = (evt: any) => {
     setInputActive(false);
     dispatch(setSearchInput(evt.target.value));
     if (evt.target.value !== searchString) {
-      (!evt.target.value
-        ? getPublicGists(pageNumber, numberOfResults)
-        : getGist(evt.target.value)
-      ).then((res) =>
-        dispatch(setPublicGists(!evt.target.value ? res.data : [res.data]))
-      );
+      dispatch(setIsLoading(true));
     }
   };
 
   const keyUpHandler = (evt: any) => {
     if (evt.target.value !== searchString && evt.key === "Enter") {
       dispatch(setSearchInput(evt.target.value));
-      (!evt.target.value
-        ? getPublicGists(pageNumber, numberOfResults)
-        : getGist(evt.target.value)
-      ).then((res) =>
-        dispatch(setPublicGists(!evt.target.value ? res.data : [res.data]))
-      );
+      dispatch(setIsLoading(true));
     }
   };
 
@@ -101,6 +99,7 @@ function AppHeader() {
         getUserInfo().then((res) => {
           dispatch(setIsLoggedIn(true));
           dispatch(setUserInfo(res.data));
+          message.success("Logged in successfully");
         })
       );
   };
@@ -112,6 +111,7 @@ function AppHeader() {
       </Link>
       <div className="right-container">
         <input
+          id="search-input"
           onFocus={() => setInputActive(true)}
           onBlur={(e) => blurHandler(e)}
           onKeyUp={(e) => keyUpHandler(e)}

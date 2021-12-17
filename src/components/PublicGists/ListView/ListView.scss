@@ -2,6 +2,8 @@
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
+  min-height: calc(100vh - 12rem);
+  align-items: center;
   .avatar {
     height: 2.5rem;
     border-radius: 50%;
@@ -13,6 +15,10 @@
       cursor: pointer;
       margin: 0 0.25rem;
     }
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
   table {
     border-spacing: 0;
@@ -37,7 +43,6 @@
     th {
       padding: 1rem 0.5rem;
       text-align: left;
-      max-width: 25rem;
     }
   }
 }

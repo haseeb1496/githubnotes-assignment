@@ -12,6 +12,7 @@ import {
   selectPublicGists,
   selectListView,
   selectSearchInput,
+  selectIsLoading,
 } from "../../features/global/globalSlice";
 import Pagination from "./Pagination/Pagination";
 import {
@@ -31,6 +32,7 @@ function PublicGists() {
   const publicGists = useAppSelector((st) => selectPublicGists(st));
   const starredGists = useAppSelector((st) => selectStarredGists(st));
   const searchString = useAppSelector((st) => selectSearchInput(st));
+  const isLoading = useAppSelector((st) => selectIsLoading(st));
 
   const gridViewListener = () => {
     dispatch(setListView(false));
@@ -47,16 +49,22 @@ function PublicGists() {
     (!!searchString
       ? getGist(searchString)
       : getPublicGists(pageNumber, numberOfResults)
-    ).then((res) => {
-      if (!searchString) {
-        !!listView
-          ? dispatch(setNumberOfResults(14))
-          : dispatch(setNumberOfResults(9));
+    ).then(
+      (res) => {
+        if (!searchString) {
+          !!listView
+            ? dispatch(setNumberOfResults(14))
+            : dispatch(setNumberOfResults(9));
+        }
+        dispatch(setIsLoading(false));
+        dispatch(setPublicGists(!!searchString ? [res.data] : res.data));
+      },
+      () => {
+        dispatch(setIsLoading(false));
+        dispatch(setPublicGists([]));
       }
-      dispatch(setIsLoading(false));
-      dispatch(setPublicGists(!!searchString ? [res.data] : res.data));
-    });
-  }, [numberOfResults]);
+    );
+  }, [numberOfResults, searchString]);
 
   return (
     <section className="public-gists">
@@ -81,7 +89,7 @@ function PublicGists() {
               ) : (
                 <GridView gists={publicGists} />
               )}
-              {!searchString && <Pagination />}
+              {!searchString && !isLoading && <Pagination />}
             </>
           }
         ></Route>

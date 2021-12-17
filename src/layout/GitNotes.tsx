@@ -1,9 +1,9 @@
 import AppHeader from "../components/AppHeader/AppHeader";
 import "./GitNotes.scss";
 import PublicGists from "../components/PublicGists/PublicGists";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { getUserInfo } from "../app/services";
-import { setIsLoggedIn } from "../features/global/globalSlice";
+import { selectIsLoading, setIsLoggedIn } from "../features/global/globalSlice";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserProfile from "../components/UserProfile/UserProfile";
 import CreateGist from "../components/CreateGist/CreateGist";

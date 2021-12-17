@@ -1,8 +1,11 @@
+import { message } from "antd";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createGist } from "../../app/services";
 import "./CreateGist.scss";
 
 function CreateGist() {
+  const navgiate = useNavigate();
   const [state, setState] = useState({
     description: "",
     files: [{ name: "", content: "" }],
@@ -13,12 +16,10 @@ function CreateGist() {
     state.files.forEach((file) => {
       filesObj[file.name] = { content: file.content };
     });
-    createGist({ description: state.description, files: filesObj }).then(() =>
-      setState((st) => ({
-        description: "",
-        files: [{ name: "", content: "" }],
-      }))
-    );
+    createGist({ description: state.description, files: filesObj }).then(() => {
+      message.success("Gist created successfully");
+      navgiate("/profile");
+    });
   };
 
   return (

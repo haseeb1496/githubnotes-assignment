@@ -3,6 +3,8 @@
   flex-direction: column;
   width: fit-content;
   margin: auto;
+  min-height: calc(100vh - 9rem);
+  justify-content: center;
   .row-layout {
     display: flex;
     flex-direction: row;
