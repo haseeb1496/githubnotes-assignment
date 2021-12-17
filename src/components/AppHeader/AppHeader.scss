@@ -65,4 +65,16 @@
 }
 .ant-dropdown-menu {
   border-radius: 4px !important;
+  .icon-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    color: #828282;
+    svg {
+      color: #a4e1ca;
+      font-size: 1.25rem;
+      margin-right: 0.5rem;
+    }
+  }
 }

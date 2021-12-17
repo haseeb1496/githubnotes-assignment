@@ -1,11 +1,10 @@
 import "./AppHeader.scss";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useState } from "react";
-import { getPublicGists, getUserInfo, getGist } from "../../app/services";
+import { getUserInfo } from "../../app/services";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   setSearchInput,
-  setPublicGists,
   setIsLoggedIn,
   selectSearchInput,
   selectIsLoggedIn,
@@ -17,16 +16,14 @@ import { constants } from "../../app/constants";
 import { Dropdown, Menu, message } from "antd";
 import "antd/dist/antd.css";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  selectNumberOfResults,
-  selectPageNumber,
-} from "../../features/page/pageSlice";
 import { selectUserInfo, setUserInfo } from "../../features/user/userSlice";
+import { CgProfile } from "react-icons/cg";
+import { IoIosCreate } from "react-icons/io";
+import { AiFillStar } from "react-icons/ai";
+import { BiLogOut } from "react-icons/bi";
 
 function AppHeader() {
   const [inputActive, setInputActive] = useState(false);
-  const pageNumber = useAppSelector((st) => selectPageNumber(st));
-  const numberOfResults = useAppSelector((st) => selectNumberOfResults(st));
   const searchString = useAppSelector((st) => {
     const string = selectSearchInput(st);
     if (document.getElementById("search-input")) {
@@ -42,15 +39,35 @@ function AppHeader() {
   const menu = (
     <Menu>
       <Menu.Item>
-        <Link to="/profile">View Profile</Link>
+        <Link to="/profile">
+          <div className="icon-container">
+            <CgProfile />
+            View Profile
+          </div>
+        </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/create">Create Gist</Link>
+        <Link to="/create">
+          <div className="icon-container">
+            <IoIosCreate />
+            Create Gist
+          </div>
+        </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/starred">Starred Gists</Link>
+        <Link to="/starred">
+          <div className="icon-container">
+            <AiFillStar />
+            Starred Gists
+          </div>
+        </Link>
       </Menu.Item>
-      <Menu.Item onClick={() => logoutHandler()}>Logout</Menu.Item>
+      <Menu.Item onClick={() => logoutHandler()}>
+        <div className="icon-container">
+          <BiLogOut />
+          Logout
+        </div>
+      </Menu.Item>
     </Menu>
   );
 
